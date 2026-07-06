@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Liebe Frau Viktoria, Vielen Dank für alles!🌷🌷🌷</title>
+<style>
+  :root{
+    --bg-top:#050b12;
+    --bg-mid:#0a1a20;
+    --petal-core:#ffb84d;
+    --stem:#1f6e5c;
+    --grass:#3fae4a;
+  }
+  html,body{
+    margin:0;
+    min-height:100%;
+    background:radial-gradient(ellipse 65% 55% at 50% 35%, var(--bg-mid), var(--bg-top) 75%);
+    overflow-x:hidden;
+    font-family:'Segoe UI', sans-serif;
+  }
+  .stage{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding-top:6vh;
+    box-sizing:border-box;
+  }
+  .sparkles{ position:absolute; inset:0; pointer-events:none; }
+  .spark{
+    position:absolute;
+    border-radius:50%;
+    opacity:0;
+    animation:twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:0; transform:scale(0.5);}
+    50%{opacity:1; transform:scale(1.2);}
+  }
+  svg{
+    width:min(92vw, 105vh, 620px);
+    height:auto;
+    overflow:visible;
+    margin-top:-2vh;
+  }
+
+  .grass-blade{
+    stroke:var(--grass);
+    stroke-linecap:round;
+    fill:none;
+    stroke-dasharray: var(--len);
+    stroke-dashoffset: var(--len);
+    animation: growStem .9s ease-out forwards;
+  }
+
+  .fan-leaf{
+    fill:url(#leafGrad);
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    transform: scaleY(0);
+    opacity:0;
+    animation: growLeaf .8s ease-out forwards;
+  }
+  @keyframes growLeaf{ to{ transform:scaleY(1); opacity:1; } }
+
+  .stem{
+    stroke:var(--stem);
+    stroke-linecap:round;
+    fill:none;
+    stroke-dasharray: var(--len);
+    stroke-dashoffset: var(--len);
+    animation: growStem 1s ease-out forwards;
+  }
+  @keyframes growStem{ to{ stroke-dashoffset:0; } }
+
+  /* wind-blow group wraps each stem + its flower head so the whole
+     plant sways together from the base, like wind moving through it,
+     instead of only the flower head swaying on its own. */
+  .plant{
+    transform-box: fill-box;
+    transform-origin: bottom center;
+    animation: blow var(--blow-dur) ease-in-out infinite;
+    animation-delay: var(--blow-delay);
+  }
+  @keyframes blow{
+    0%,100%{ transform: rotate(-3.5deg); }
+    50%{ transform: rotate(3deg); }
+  }
+
+  /* petal: outer <g> (created in JS) holds fixed position/rotation as an SVG
+     attribute; THIS class goes on the inner <g> so the CSS transform animation
+     never fights with the positioning transform attribute */
+  .petal{
+    fill:url(#petalGrad);
+    filter:drop-shadow(0 0 8px rgba(234,252,247,0.6));
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    transform: scale(0.1);
+    opacity:0;
+    animation: unfurl .6s cubic-bezier(.3,1.5,.6,1) forwards, sway 6s ease-in-out infinite;
+    animation-delay: var(--pdelay), var(--pdelay);
+  }
+  @keyframes unfurl{
+    0%{ transform:scale(0.1) rotate(-8deg); opacity:0; }
+    60%{ transform:scale(1.22) rotate(3deg); opacity:1; }
+    100%{ transform:scale(1) rotate(0deg); opacity:1; }
+  }
+  @keyframes sway{
+    0%,100%{ transform:rotate(-1.2deg); }
+    50%{ transform:rotate(1.2deg); }
+  }
+  .flower-core{
+    fill:var(--petal-core);
+    filter:drop-shadow(0 0 6px rgba(255,184,77,0.9));
+    opacity:0;
+    animation: coreIn .4s ease-out forwards;
+  }
+  @keyframes coreIn{ to{ opacity:1; } }
+
+  .caption{
+    position:static;
+    width:100%;
+    text-align:center;
+    color:#f2f2f2;
+    font-family:'Georgia', serif;
+    letter-spacing:0.5px;
+    text-shadow:0 2px 12px rgba(0,0,0,0.6);
+  }
+  .caption .line1{
+    display:block;
+    font-size:clamp(20px, 4vw, 32px);
+  }
+  .caption .line2{
+    display:block;
+    margin-top:0.35em;
+    font-size:clamp(20px, 4vw, 32px);
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="sparkles" id="sparkles"></div>
+  <div class="caption">
+    <span class="line1">Liebe Frau Viktoria,</span>
+    <span class="line2">Vielen Dank für alles! 🌷🌷🌷</span>
+  </div>
+
+  <svg id="scene" viewBox="0 0 460 420" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="petalGrad" cx="50%" cy="25%" r="85%">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="55%" stop-color="#eafcf5"/>
+        <stop offset="100%" stop-color="#bdeee0"/>
+      </radialGradient>
+      <linearGradient id="leafGrad" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0%" stop-color="#0c3a3f"/>
+        <stop offset="55%" stop-color="#12736b"/>
+        <stop offset="100%" stop-color="#35c2a6"/>
+      </linearGradient>
+    </defs>
+
+    <!-- LEFT grass blades -->
+    <g>
+      <path class="grass-blade" style="--len:150; animation-delay:0s"   d="M25 400 C 5 340, 35 300, 15 240" stroke-width="4"/>
+      <path class="grass-blade" style="--len:160; animation-delay:.08s" d="M45 400 C 55 330, 30 290, 50 230" stroke-width="4"/>
+      <path class="grass-blade" style="--len:140; animation-delay:.16s" d="M10 400 C -5 350, 15 310, 0 260" stroke-width="3.5"/>
+      <path class="grass-blade" style="--len:130; animation-delay:.05s" d="M65 400 C 75 345, 55 315, 72 270" stroke-width="3.5"/>
+    </g>
+
+    <!-- RIGHT grass blades -->
+    <g>
+      <path class="grass-blade" style="--len:150; animation-delay:.03s" d="M435 400 C 455 340, 425 300, 445 240" stroke-width="4"/>
+      <path class="grass-blade" style="--len:160; animation-delay:.11s" d="M415 400 C 405 330, 430 290, 410 230" stroke-width="4"/>
+      <path class="grass-blade" style="--len:140; animation-delay:.19s" d="M450 400 C 465 350, 445 310, 460 260" stroke-width="3.5"/>
+      <path class="grass-blade" style="--len:130; animation-delay:.07s" d="M395 400 C 385 345, 405 315, 388 270" stroke-width="3.5"/>
+    </g>
+
+    <!-- fan-shaped teal leaves at the base, spread wider to sit under 7 stems -->
+    <g>
+      <path class="fan-leaf" style="animation-delay:.15s" d="M230 400 C 165 396, 125 362, 120 320 C 152 358, 190 382, 230 400 Z"/>
+      <path class="fan-leaf" style="animation-delay:.25s" d="M230 400 C 190 386, 172 345, 188 305 C 198 348, 213 376, 230 400 Z"/>
+      <path class="fan-leaf" style="animation-delay:.35s" d="M235 400 C 250 356, 245 316, 225 286 C 230 330, 232 368, 235 400 Z"/>
+      <path class="fan-leaf" style="animation-delay:.2s"  d="M235 400 C 292 391, 320 358, 316 318 C 292 352, 260 382, 235 400 Z"/>
+      <path class="fan-leaf" style="animation-delay:.3s"  d="M232 400 C 268 382, 278 348, 262 312 C 253 348, 242 376, 232 400 Z"/>
+      <path class="fan-leaf" style="animation-delay:.4s"  d="M228 400 C 202 393, 188 372, 195 350 C 208 370, 218 386, 228 400 Z"/>
+      <path class="fan-leaf" style="animation-delay:.1s"  d="M225 400 C 150 393, 105 365, 100 328 C 130 362, 175 388, 225 400 Z"/>
+      <path class="fan-leaf" style="animation-delay:.45s" d="M238 400 C 315 390, 350 360, 348 322 C 320 355, 280 385, 238 400 Z"/>
+    </g>
+
+    <!-- STEMS + FLOWER HEADS, each wrapped in a .plant group so the whole
+         stalk sways in the wind together, with its own timing so they
+         don't all blow in perfect unison -->
+    <g class="plant" style="--blow-dur:4.2s; --blow-delay:0s">
+      <line class="stem" style="--len:135; animation-delay:.55s" x1="90"  y1="395" x2="84"  y2="260" stroke-width="4"/>
+      <g class="flower-head" data-cx="84"  data-cy="255" data-petal-len="34" data-petal-w="30" data-core-r="7"   data-start="1.55"></g>
+    </g>
+    <g class="plant" style="--blow-dur:4.6s; --blow-delay:.3s">
+      <line class="stem" style="--len:200; animation-delay:.40s" x1="140" y1="395" x2="132" y2="195" stroke-width="4.5"/>
+      <g class="flower-head" data-cx="132" data-cy="190" data-petal-len="40" data-petal-w="35" data-core-r="8.5" data-start="1.40"></g>
+    </g>
+    <g class="plant" style="--blow-dur:5s; --blow-delay:.6s">
+      <line class="stem" style="--len:270; animation-delay:.25s" x1="185" y1="395" x2="174" y2="125" stroke-width="5"/>
+      <g class="flower-head" data-cx="174" data-cy="120" data-petal-len="46" data-petal-w="40" data-core-r="9.5" data-start="1.25"></g>
+    </g>
+    <g class="plant" style="--blow-dur:5.4s; --blow-delay:.15s">
+      <line class="stem" style="--len:320; animation-delay:0s"   x1="230" y1="395" x2="220" y2="75"  stroke-width="5.5"/>
+      <g class="flower-head" data-cx="220" data-cy="70"  data-petal-len="50" data-petal-w="44" data-core-r="11"  data-start="1.05"></g>
+    </g>
+    <g class="plant" style="--blow-dur:5s; --blow-delay:.45s">
+      <line class="stem" style="--len:265; animation-delay:.30s" x1="275" y1="395" x2="285" y2="130" stroke-width="5"/>
+      <g class="flower-head" data-cx="285" data-cy="125" data-petal-len="46" data-petal-w="40" data-core-r="9.5" data-start="1.30"></g>
+    </g>
+    <g class="plant" style="--blow-dur:4.6s; --blow-delay:.75s">
+      <line class="stem" style="--len:195; animation-delay:.45s" x1="320" y1="395" x2="329" y2="200" stroke-width="4.5"/>
+      <g class="flower-head" data-cx="329" data-cy="195" data-petal-len="40" data-petal-w="35" data-core-r="8.5" data-start="1.45"></g>
+    </g>
+    <g class="plant" style="--blow-dur:4.2s; --blow-delay:.9s">
+      <line class="stem" style="--len:130; animation-delay:.60s" x1="370" y1="395" x2="376" y2="265" stroke-width="4"/>
+      <g class="flower-head" data-cx="376" data-cy="260" data-petal-len="34" data-petal-w="30" data-core-r="7"   data-start="1.60"></g>
+    </g>
+  </svg>
+</div>
+
+<script>
+  // build each flower head with 5 rounded, overlapping petals that unfurl
+  // outward one after another
+  const NS = "http://www.w3.org/2000/svg";
+  const PETAL_COUNT = 5;
+
+  document.querySelectorAll('.flower-head').forEach(head => {
+    const cx = head.dataset.cx, cy = head.dataset.cy;
+    const len = +head.dataset.petalLen, w = +head.dataset.petalW;
+    const start = +head.dataset.start;
+    const half = w / 2;
+
+    for (let i = 0; i < PETAL_COUNT; i++) {
+      const angle = (360 / PETAL_COUNT) * i;
+
+      const outer = document.createElementNS(NS, 'g');
+      outer.setAttribute('transform', `translate(${cx},${cy}) rotate(${angle})`);
+
+      const inner = document.createElementNS(NS, 'g');
+      inner.setAttribute('class', 'petal');
+      inner.style.setProperty('--pdelay', (start + i * 0.09) + 's');
+
+      const path = document.createElementNS(NS, 'path');
+      path.setAttribute('d',
+        `M0 0 C -${half} -${len*0.1}, -${half*1.05} -${len*0.75}, 0 -${len} ` +
+        `C ${half*1.05} -${len*0.75}, ${half} -${len*0.1}, 0 0 Z`
+      );
+      inner.appendChild(path);
+      outer.appendChild(inner);
+      head.appendChild(outer);
+    }
+
+    const core = document.createElementNS(NS, 'circle');
+    core.setAttribute('class', 'flower-core');
+    core.setAttribute('cx', cx);
+    core.setAttribute('cy', cy);
+    core.setAttribute('r', head.dataset.coreR);
+    core.style.animationDelay = (start + PETAL_COUNT * 0.09 + 0.1) + 's';
+    head.appendChild(core);
+  });
+
+  // ambient background sparkles (yellow + teal dots, like fireflies)
+  const container = document.getElementById('sparkles');
+  const colors = ['#3fe0c5', '#ffd36e'];
+  for (let i = 0; i < 50; i++) {
+    const s = document.createElement('div');
+    s.className = 'spark';
+    const size = Math.random() * 4 + 2;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 65 + '%';
+    s.style.background = colors[Math.floor(Math.random() * colors.length)];
+    s.style.animationDuration = (2 + Math.random() * 3) + 's';
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    container.appendChild(s);
+  }
+</script>
+</body>
+</html>
