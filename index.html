@@ -37,9 +37,12 @@
   }
   .flower-wrap{
     position:absolute;
-    inset:0;
+    top:14%;
+    left:0;
+    right:0;
+    bottom:0;
     width:100%;
-    height:100%;
+    height:86%;
   }
   .flower-wrap svg{
     display:block;
@@ -122,24 +125,31 @@
 
   .caption{
     position:absolute;
-    top:5%;
+    top:0;
     left:0;
     width:100%;
+    height:14%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
     text-align:center;
     color:#f2f2f2;
     font-family:'Georgia', serif;
     letter-spacing:0.5px;
     text-shadow:0 2px 12px rgba(0,0,0,0.6);
     z-index:3;
+    box-sizing:border-box;
+    padding:0 4vw;
   }
   .caption .line1{
     display:block;
-    font-size:clamp(20px, 4vw, 32px);
+    font-size:clamp(24px, 5.5vw, 40px);
   }
   .caption .line2{
     display:block;
-    margin-top:0.35em;
-    font-size:clamp(20px, 4vw, 32px);
+    margin-top:0.3em;
+    font-size:clamp(24px, 5.5vw, 40px);
   }
 </style>
 </head>
