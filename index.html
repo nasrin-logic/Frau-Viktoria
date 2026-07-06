@@ -20,15 +20,11 @@
   }
   .stage{
     position:relative;
-    width:100%;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    box-sizing:border-box;
+    width:100vw;
+    height:100dvh;
+    overflow:hidden;
   }
-  .sparkles{ position:absolute; inset:0; pointer-events:none; }
+  .sparkles{ position:absolute; inset:0; pointer-events:none; z-index:1; }
   .spark{
     position:absolute;
     border-radius:50%;
@@ -39,11 +35,16 @@
     0%,100%{opacity:0; transform:scale(0.5);}
     50%{opacity:1; transform:scale(1.2);}
   }
-  svg{
-    width:min(92vw, 105vh, 620px);
-    height:auto;
-    overflow:visible;
-    margin-top:-2vh;
+  .flower-wrap{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+  }
+  .flower-wrap svg{
+    display:block;
+    width:100%;
+    height:100%;
   }
 
   .grass-blade{
@@ -120,13 +121,16 @@
   @keyframes coreIn{ to{ opacity:1; } }
 
   .caption{
-    position:static;
+    position:absolute;
+    top:5%;
+    left:0;
     width:100%;
     text-align:center;
     color:#f2f2f2;
     font-family:'Georgia', serif;
     letter-spacing:0.5px;
     text-shadow:0 2px 12px rgba(0,0,0,0.6);
+    z-index:3;
   }
   .caption .line1{
     display:block;
@@ -147,7 +151,8 @@
     <span class="line2">Vielen Dank für alles! 🌷🌷🌷</span>
   </div>
 
-  <svg id="scene" viewBox="0 0 460 420" xmlns="http://www.w3.org/2000/svg">
+  <div class="flower-wrap">
+  <svg id="scene" viewBox="0 0 460 420" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <radialGradient id="petalGrad" cx="50%" cy="25%" r="85%">
         <stop offset="0%" stop-color="#ffffff"/>
@@ -221,6 +226,7 @@
       <g class="flower-head" data-cx="376" data-cy="260" data-petal-len="34" data-petal-w="30" data-core-r="7"   data-start="1.60"></g>
     </g>
   </svg>
+  </div>
 </div>
 
 <script>
